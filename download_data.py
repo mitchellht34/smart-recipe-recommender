@@ -1,4 +1,3 @@
-# download_data.py
 import os
 
 # Make sure you installed kaggle: pip install kaggle
