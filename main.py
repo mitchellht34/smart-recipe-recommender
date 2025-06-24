@@ -20,6 +20,34 @@ def safe_parse_ingredients(x):
 
 df['ParsedIngredients'] = df['RecipeIngredientParts'].apply(safe_parse_ingredients)
 
-
+# Check first few rows
 print(df[['Name', 'ParsedIngredients']].head())
 
+def find_recipes(user_ingredients, df):
+    matches = []
+
+    for i, row in df.iterrows():
+        recipe_ingredients = row['ParsedIngredients']
+        
+        # Count how many user ingredients appear in recipe ingredients
+        match_count = sum(
+            any(user_ing.lower() in ing.lower() for ing in recipe_ingredients)
+            for user_ing in user_ingredients
+        )
+        
+        matches.append((row['Name'], match_count))
+
+    # Sort recipes by match count (highest first)
+    matches.sort(key=lambda x: x[1], reverse=True)
+    return matches[:10]  # Top 10 matches
+
+# Example user input
+user_ingredients = ['chicken', 'garlic', 'onion']
+
+# Find top matching recipes
+top_recipes = find_recipes(user_ingredients, df)
+
+# Print results
+print("\nTop matching recipes:")
+for recipe, score in top_recipes:
+    print(f"{recipe} — {score} matching ingredients")
