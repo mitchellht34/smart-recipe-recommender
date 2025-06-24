@@ -1,5 +1,7 @@
 import pandas as pd
 import ast  # To parse the ingredient strings
+import matplotlib.pyplot as plt
+from collections import Counter
 
 df = pd.read_csv('data/recipes.csv')
 
@@ -55,3 +57,25 @@ top_recipes = find_recipes(user_ingredients, df)
 print("\nTop matching recipes:")
 for recipe, score in top_recipes:
     print(f"{recipe} — {score} matching ingredients")
+
+# Flatten all ingredients into one big list
+all_ingredients = [ing.lower() for sublist in df['ParsedIngredients'] for ing in sublist]
+
+# Count frequency of each ingredient
+ingredient_counts = Counter(all_ingredients)
+
+# Get top 20 ingredients
+top_ingredients = ingredient_counts.most_common(20)
+
+# Separate into lists for plotting
+ingredients, counts = zip(*top_ingredients)
+
+# Plot
+plt.figure(figsize=(10, 6))
+plt.bar(ingredients, counts)
+plt.xticks(rotation=90)
+plt.title("Top 20 Most Common Ingredients")
+plt.ylabel("Frequency")
+plt.xlabel("Ingredient")
+plt.tight_layout()
+plt.show()
