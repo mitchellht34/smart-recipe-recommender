@@ -42,7 +42,11 @@ def find_recipes(user_ingredients, df):
     return matches[:10]  # Top 10 matches
 
 # Example user input
-user_ingredients = ['chicken', 'garlic', 'onion']
+# user_ingredients = ['chicken', 'garlic', 'onion']
+
+# Ask user for ingredients
+input_str = input("\nEnter ingredients (comma separated): ")
+user_ingredients = [x.strip() for x in input_str.split(",")]
 
 # Find top matching recipes
 top_recipes = find_recipes(user_ingredients, df)
