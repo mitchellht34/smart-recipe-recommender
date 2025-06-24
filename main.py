@@ -58,6 +58,8 @@ print("\nTop matching recipes:")
 for recipe, score in top_recipes:
     print(f"{recipe} — {score} matching ingredients")
 
+# --- Bar Chart of Common Ingredients ---
+
 # Flatten all ingredients into one big list
 all_ingredients = [ing.lower() for sublist in df['ParsedIngredients'] for ing in sublist]
 
@@ -78,4 +80,16 @@ plt.title("Top 20 Most Common Ingredients")
 plt.ylabel("Frequency")
 plt.xlabel("Ingredient")
 plt.tight_layout()
+plt.show()
+
+# --- Pie Chart of Recipe Categories ---
+
+# Count category frequencies
+category_counts = df['RecipeCategory'].value_counts().head(10)  # Top 10 categories
+
+# Plot
+plt.figure(figsize=(8, 8))
+plt.pie(category_counts, labels=category_counts.index, autopct='%1.1f%%', startangle=140)
+plt.title("Top 10 Recipe Categories")
+plt.axis('equal')
 plt.show()
